@@ -1,6 +1,6 @@
 #!perl -w
 
-# $Id: 09cgi.t,v 1.4 2003/10/08 18:27:16 david Exp $
+# $Id: 09cgi.t,v 1.5 2003/10/08 18:30:22 david Exp $
 
 use strict;
 use FindBin qw($Bin);
@@ -160,8 +160,8 @@ $ENV{QUERY_STRING} = "$key|redir_cb0=1" .
   "&$key|add_header_cb9=1";
 ok( $cgih->handle_request, "Handle redirect w/o abort" );
 ok( my $res = $stdout->read, "Get response headers" );
-like( $res, qr/Status: 302 Moved\s+Location: $url/,
-    "Check for redirection header" );
+like( $res, qr/Status: 302 Moved/, "Check for Status header" );
+like( $res, qr/Location: $url/, "Check for Location header" );
 like( $res, qr/Age: 42/, "Check for age header" );
 clear_bufs;
 
