@@ -23,7 +23,6 @@ WriteMakefile(
     NAME		=> 'MasonX::Interp::WithCallbacks',
     VERSION_FROM	=> 'lib/MasonX/Interp/WithCallbacks.pm',
     PREREQ_PM		=> { 'HTML::Mason'             => '1.23',
-                             'Apache::Test'            => '1.03',
                              'Test::Simple'            => '0.17',
                              'Params::CallbackRequest' => '1.10' },
     clean               => { FILES => $clean },
