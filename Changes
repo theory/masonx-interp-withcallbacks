@@ -1,6 +1,9 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
 1.13
+      - Makefile.PL no longer requires Apache::TestMB, since it may not
+        be installed, but MasonX::Interp::WithCallbacks can still be installed
+        with Module::Build. Reported by Scott Lanning.
 
 1.12  2004-06-28T17:04:23
       - Fixed Apache tests to eliminate failure under more recent versions
