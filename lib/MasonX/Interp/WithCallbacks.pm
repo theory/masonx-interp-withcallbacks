@@ -8,7 +8,7 @@ use Params::CallbackRequest;
 
 use vars qw($VERSION @ISA);
 @ISA = qw(HTML::Mason::Interp);
-$VERSION = '1.13';
+$VERSION = '1.14';
 
 Params::Validate::validation_options
   ( on_fail => sub { HTML::Mason::Exception::Params->throw( join '', @_ ) } );
