@@ -1,11 +1,11 @@
 #!perl -w
 
-# $Id: 01basic.t,v 1.5 2003/08/25 21:09:45 david Exp $
+# $Id: 01basic.t,v 1.6 2003/09/07 18:08:00 david Exp $
 
 use strict;
 use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir catfile);
-use Test::More tests => 42;
+use Test::More tests => 49;
 use HTML::Mason::Interp;
 
 BEGIN { use_ok('MasonX::Interp::WithCallbacks') }
@@ -159,6 +159,49 @@ push @$cbs, { pkg_key => $key,
             };
 
 ##############################################################################
+# We'll use these callbacks to test notes().
+sub add_note {
+    my $cb = shift;
+    $cb->notes($cb->value, $cb->params->{note});
+}
+
+sub get_note {
+    my $cb = shift;
+    $cb->params->{result} = $cb->notes($cb->value);
+}
+
+sub list_notes {
+    my $cb = shift;
+    my $params = $cb->params;
+    my $notes = $cb->notes;
+    for my $k (sort keys %$notes) {
+        $params->{result} .= "$k => $notes->{$k}\n";
+    }
+}
+
+sub clear {
+    my $cb = shift;
+    $cb->cb_request->clear_notes;
+}
+
+push @$cbs, { pkg_key => $key,
+              cb_key  => 'add_note',
+              cb      => \&add_note
+            },
+            { pkg_key => $key,
+              cb_key  => 'get_note',
+              cb      => \&get_note
+            },
+            { pkg_key => $key,
+              cb_key  => 'list_notes',
+              cb      => \&list_notes
+            },
+            { pkg_key => $key,
+              cb_key  => 'clear',
+              cb      => \&clear
+            };
+
+##############################################################################
 # We'll use this callback to change the result to uppercase.
 sub upper {
     my $cb = shift;
@@ -262,6 +305,67 @@ $outbuf = '';
 $interp->exec($comp, "$key|test_aborted_cb" => 1 );
 is( $outbuf, 'yes', "Check aborted result" );
 $outbuf = '';
+
+##############################################################################
+# Test notes.
+my $note_key = 'myNote';
+my $note = 'Test note';
+$interp->exec($comp,
+              "$key|add_note_cb1" => $note_key, # Executes first.
+              note                => $note,
+              "$key|get_note_cb"  => $note_key);
+is( $outbuf, $note, "Check note result" );
+$outbuf = '';
+
+# Make sure the note isn't available on the next request.
+$interp->exec($comp, "$key|get_note_cb"  => $note_key );
+is( $outbuf, '', "Check no note result" );
+
+# Add multiple notes.
+$interp->exec($comp,
+              "$key|add_note_cb1"   => $note_key, # Executes first.
+              "$key|add_note_cb2"   => $note_key . 1, # Executes second.
+              note                  => $note,
+              "$key|list_notes_cb"  => 1);
+is( $outbuf, "$note_key => $note\n${note_key}1 => $note\n",
+    "Check multiple note result" );
+$outbuf = '';
+
+# Make sure that notes percolate back to Mason.
+$interp->exec($comp,
+              "$key|add_note_cb"   => $note_key,
+              note                 => $note,
+              result               => sub { shift->notes($note_key) } );
+is( $outbuf, $note, "Check mason note result" );
+$outbuf = '';
+
+# Make sure that we can still get at the notes via the callback request object
+# in Mason components.
+$interp->exec($comp,
+              "$key|add_note_cb"   => $note_key,
+              note                 => $note,
+              result               => sub {
+                  shift->interp->cb_request->notes($note_key)
+              } );
+is( $outbuf, $note, "Check cb_request note result" );
+$outbuf = '';
+
+# Finally, make sure that if we clear it in callbacks, that no one gets it.
+$interp->exec($comp,
+              "$key|add_note_cb1"  => $note_key, # Executes first.
+              note                 => $note,
+              "$key|clear_cb"      => 1,
+              result               => sub { shift->notes($note_key) } );
+is( $outbuf, '', "Check Mason cleared note result" );
+
+$interp->exec($comp,
+              "$key|add_note_cb1"  => $note_key, # Executes first.
+              note                 => $note,
+              "$key|clear_cb"      => 1,
+              result               => sub {
+                  shift->interp->cb_request->notes($note_key)
+              } );
+is( $outbuf, '', "Check cb_request cleared note result" );
 
 ##############################################################################
 # Test the pre-execution callbacks.

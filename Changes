@@ -22,3 +22,6 @@ Revision history for Perl extension MasonX::Interp::WithCallbacks.
       - Replaced the "exec_null_cb_values" parameter from
         MasonX::ApacheHandler::WithCallbaks, which had defaulted to true, with
         "ignore_nulls" in Params::CallbackRequest, which defaults to false.
+      - Added Params::CallbackRequest notes() interface, which copies all
+        notes to the Mason request notes() interface before the request
+        executes.

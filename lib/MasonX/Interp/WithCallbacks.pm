@@ -93,7 +93,8 @@ sub new {
     # much, since interp objects won't be created very often.
     my $exh = delete $self->{cb_exception_handler};
     $self->{cb_request} = Params::CallbackRequest->new
-      ( ($exh ? (exception_handler => $exh) : ()),
+      ( leave_notes => 1,
+        ($exh ? (exception_handler => $exh) : ()),
        map { $self->{$_} ? ($_ => delete $self->{$_}) : () }
         keys %{ __PACKAGE__->valid_params }
     );
@@ -116,14 +117,29 @@ sub make_request {
                                             ());
 
     # Abort the request if that's what the callbacks want.
-    HTML::Mason::Exception::Abort->throw
-      ( error         => 'Callback->abort was called',
-        aborted_value => $ret )
-      unless ref $ret;
+    unless (ref $ret) {
+        $self->{cb_request}->clear_notes;
+        HTML::Mason::Exception::Abort->throw
+          ( error         => 'Callback->abort was called',
+            aborted_value => $ret );
+    }
 
-    # Copy the parameters back and continue. Too much copying!
+    # Copy the parameters back -- too much copying!
     $p{args} = [%params];
-    $self->SUPER::make_request(%p);
+
+    # Get the request, copy the notes, and continue.
+    my $req = $self->SUPER::make_request(%p);
+    # Should I use the same reference?
+    %{$req->notes} = %{$self->{cb_request}->notes};
+    return $req;
+}
+
+# We override this method in order to clear out all the callback notes
+# at the end of the Mason request.
+sub purge_code_cache {
+    my $self = shift;
+    $self->{cb_request}->clear_notes;
+    $self->SUPER::purge_code_cache;
 }
 
 1;
@@ -131,7 +147,7 @@ __END__
 
 =head1 NAME
 
-MasonX::Interp::WithCallbacks - Mason callback support via Params::CallbackRequest
+MasonX::Interp::WithCallbacks - Mason callback support via Params::CallbackRequest.
 
 =head1 SYNOPSIS
 
@@ -222,11 +238,12 @@ creates and executes the request component stack.
 =head1 DESCRIPTION
 
 MasonX::Interp::WithCallbacks subclasses HTML::Mason::Interp in order to
-provide a Mason callback system built on Params::CallbackRequest. Callbacks
-may be either code references provided to the C<new()> constructor, or methods
-defined in subclasses of Params::Callback. Callbacks are triggered either for
-every request or by specially named keys in the Mason request arguments, and
-all callbacks are executed at the beginning of a request, just before Mason
+provide a Mason callback system built on
+L<Params::CallbackRequest|Params::CallbackRequest>. Callbacks may be either
+code references provided to the C<new()> constructor, or methods defined in
+subclasses of Params::Callback. Callbacks are triggered either for every
+request or by specially named keys in the Mason request arguments, and all
+callbacks are executed at the beginning of a request, just before Mason
 creates and executes the request component stack.
 
 This module brings support for a sort of plugin architecture based on
@@ -801,11 +818,19 @@ object.
   my $interp = MasonX::Interp::WithCallbacks->new;
   my $cb_request = $interp->cb_request;
 
-=head1 ACKNOWLEDGMENTS
+=head2 Notes
 
-Garth Webb implemented the original callbacks in Bricolage, based on an idea
-he borrowed from Paul Lindner's work with Apache::ASP. My thanks to them both
-for planting this great idea!
+  $interp->cb_request->notes($key => $value);
+  my $note = $interp->cb_request->notes($key);
+  my $notes = $interp->cb_request->notes;
+
+The Params::CallbackRequest notes interface remains available via the
+C<notes()> method of both Params::CallbackRequest and Params::Callback. Notes
+stored via this interface will be copied to the HTML::Mason::Request
+C<notes()> interface before the execution of the request, I<and> continue to
+be available for the lifetime of the Mason request via
+C<< $interp->cb_request->notes >>. Notes will be cleared out at the end of the
+request, just as with C<< $r->pnotes >>.
 
 =head1 BUGS
 

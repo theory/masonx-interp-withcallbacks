@@ -43,9 +43,43 @@ sub lowerit : PostCallback {
     $params->{result} = lc $params->{result} if $params->{do_lower};
 }
 
+sub add_note : Callback {
+    my $self = shift;
+    $self->notes($self->value, $self->params->{note});
+}
+
+sub get_note : Callback {
+    my $self = shift;
+    $self->params->{result} = $self->notes($self->value);
+}
+
+sub list_notes : Callback {
+    my $self = shift;
+    my $params = $self->params;
+    my $notes = $self->notes;
+    for my $k (sort keys %$notes) {
+        $params->{result} .= "$k => $notes->{$k}\n";
+    }
+}
+
+sub clear : Callback {
+    my $self = shift;
+    $self->cb_request->clear_notes;
+}
+
+sub mason_note : Callback {
+    my $self = shift;
+    $self->params->{result} = sub { shift->notes($self->value ) };
+}
+
+sub cbr_note : Callback {
+    my $self = shift;
+    $self->params->{result} = sub { shift->interp->cb_request->notes($self->value ) };
+}
+
 package TestCallbacks;
 
-# $Id: TestCallbacks.pm,v 1.1 2003/08/25 18:57:13 david Exp $
+# $Id: TestCallbacks.pm,v 1.2 2003/09/07 18:08:01 david Exp $
 
 use strict;
 use HTML::Mason::ApacheHandler;
@@ -117,6 +151,40 @@ sub exception {
     }
 }
 
+sub add_note {
+    my $cb = shift;
+    $cb->notes($cb->value, $cb->params->{note});
+}
+
+sub get_note {
+    my $cb = shift;
+    $cb->params->{result} = $cb->notes($cb->value);
+}
+
+sub list_notes {
+    my $cb = shift;
+    my $params = $cb->params;
+    my $notes = $cb->notes;
+    for my $k (sort keys %$notes) {
+        $params->{result} .= "$k => $notes->{$k}\n";
+    }
+}
+
+sub clear {
+    my $cb = shift;
+    $cb->cb_request->clear_notes;
+}
+
+sub mason_note {
+    my $cb = shift;
+    $cb->params->{result} = sub { shift->notes($cb->value ) };
+}
+
+sub cbr_note {
+    my $cb = shift;
+    $cb->params->{result} = sub { shift->interp->cb_request->notes($cb->value ) };
+}
+
 sub upperit {
     my $cb = shift;
     my $params = $cb->params;
@@ -162,6 +230,30 @@ my $ah = HTML::Mason::ApacheHandler->new
                   { pkg_key => KEY,
                     cb_key  => 'exception',
                     cb      => \&exception
+                  },
+                  { pkg_key => KEY,
+                    cb_key  => 'add_note',
+                    cb      => \&add_note
+                  },
+                  { pkg_key => KEY,
+                    cb_key  => 'get_note',
+                    cb      => \&get_note
+                  },
+                  { pkg_key => KEY,
+                    cb_key  => 'list_notes',
+                    cb      => \&list_notes
+                  },
+                  { pkg_key => KEY,
+                    cb_key  => 'clear',
+                    cb      => \&clear
+                  },
+                  { pkg_key => KEY,
+                    cb_key  => 'mason_note',
+                    cb      => \&mason_note
+                  },
+                  { pkg_key => KEY,
+                    cb_key  => 'cbr_note',
+                    cb      => \&cbr_note
                   },
                  ],
     pre_callbacks => [\&upperit],

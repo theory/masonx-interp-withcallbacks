@@ -1,6 +1,6 @@
 #!perl -w
 
-# $Id: 08apache.t,v 1.3 2003/08/25 18:57:13 david Exp $
+# $Id: 08apache.t,v 1.4 2003/09/07 18:08:00 david Exp $
 
 use strict;
 use Test::More;
@@ -15,7 +15,7 @@ BEGIN {
     require Apache::TestRequest;
     Apache::TestRequest->import(qw(GET POST));
 
-    plan tests => 115;
+    plan tests => 178;
 }
 
 my $key = 'myCallbackTester';
@@ -96,6 +96,77 @@ while (my $key = shift @keys) {
         "Get post request callback response" );
     is( $res->code, 200, "Check post request callback code" );
     is( $res->content, "success", 'Check post request callback content' );
+
+    ##########################################################################
+    # Fun with notes.
+    my $note_key = 'myNote';
+    my $note = 'Test note';
+    ok( $res = POST($uri,
+                    [ "$key|add_note_cb1" => $note_key, # Executes first.
+                      note                => $note,
+                     "$key|get_note_cb"  => $note_key]),
+        "Get note response" );
+    is( $res->code, 200, "Check note callback code" );
+    is( $res->content, $note, "Check note callback result" );
+
+    # Make sure the note isn't available on the next request.
+    ok( $res = POST($uri, ["$key|get_note_cb" => $note_key]),
+        "Get no note response" );
+    is( $res->code, 200, "Check no note code" );
+    is( $res->content, '', "Check no note result" );
+
+    # Add multiple notes.
+    ok( $res = POST($uri,
+                    [ "$key|add_note_cb1"   => $note_key, # Executes first.
+                      "$key|add_note_cb2"   => $note_key . 1, # Executes second.
+                      note                  => $note,
+                     "$key|list_notes_cb"  => 1 ]),
+        "Get multiple note response" );
+    is( $res->code, 200, "Check no note code" );
+    is( $res->content, "$note_key => $note\n${note_key}1 => $note\n",
+        "Check multiple note result" );
+
+    # Make sure that notes percolate back to Mason.
+    ok( $res = POST($uri,
+                    [ "$key|add_note_cb"   => $note_key,
+                      note                 => $note,
+                      "$key|mason_note_cb" => 1,
+                    ]),
+        "Get mason note response" );
+    is( $res->code, 200, "Check mason note code" );
+    is( $res->content, $note, "Check mason note result" );
+
+    # Make sure that we can still get at the notes via the callback request
+    # object in Mason components.
+    ok( $res = POST($uri,
+                    [ "$key|add_note_cb"   => $note_key,
+                      note                 => $note,
+                      "$key|cbr_note_cb" => 1,
+                    ]),
+        "Get cb_request note respone" );
+    is( $res->code, 200, "Check cb_request note code" );
+    is( $res->content, $note, "Check cb_request note result" );
+
+    # Finally, make sure that if we clear it in callbacks, that no one gets it.
+    ok( $res = POST($uri,
+                    [ "$key|add_note_cb1"  => $note_key, # Executes first.
+                      note                 => $note,
+                      "$key|clear_cb"      => 1,
+                      "$key|mason_note_cb" => 1,
+                    ]),
+        "Get Mason cleared note response" );
+    is( $res->code, 200, "Check Mason cleared note code" );
+    is( $res->content, '', "Check Mason cleared note result" );
+
+    ok( $res = POST($uri,
+                    [ "$key|add_note_cb1"  => $note_key, # Executes first.
+                      note                 => $note,
+                      "$key|clear_cb"      => 1,
+                      "$key|cbr_note_cb" => 1,
+                    ]),
+        "Get cb_request cleared note response" );
+    is( $res->code, 200, "Check cb_request cleared note code" );
+    is( $res->content, '', "Check cb_request cleared note result" );
 }
 
 ##############################################################################
