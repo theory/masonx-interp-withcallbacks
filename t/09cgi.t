@@ -1,11 +1,11 @@
 #!perl -w
 
-# $Id: 09cgi.t,v 1.1 2003/08/21 05:19:37 david Exp $
+# $Id: 09cgi.t,v 1.2 2003/08/24 22:20:38 david Exp $
 
 use strict;
 use Cwd;
 use File::Spec::Functions qw(catdir catfile);
-use Test::More tests => 19;
+use Test::More tests => 24;
 use CGI qw(-no_debug);
 use HTML::Mason::CGIHandler;
 
@@ -21,6 +21,7 @@ my $cbs = [];
 $ENV{PATH_INFO} = '/dhandler';
 $ENV{REQUEST_METHOD} = 'GET';
 
+##############################################################################
 # This will tie off STDOUT so that it doesn't print do the terminal during
 # tests.
 my $stdout = tie *STDOUT, 'TieOut' or die "Cannot tie STDOUT: $!\n";
@@ -85,12 +86,25 @@ push @$cbs, { pkg_key => $key,
 my $url = 'http://example.com/';
 sub redir {
     my $cb = shift;
-    my $val = $cb->value;
-    $cb->redirect($url, $val);
+    my $wait = $cb->value;
+    $cb->redirect($url, $wait);
 }
 push @$cbs, { pkg_key => $key,
               cb_key  => 'redir',
               cb      => \&redir
+            };
+
+##############################################################################
+# Set up a callback to add a header that we can then check for.
+sub add_header {
+    my $cb = shift;
+    isa_ok( $cb, 'Params::Callback');
+    my $r = $cb->apache_req;
+    $r->header_out(Age => 42);
+}
+push @$cbs, { pkg_key => $key,
+              cb_key  => 'add_header',
+              cb      => \&add_header
             };
 
 ##############################################################################
@@ -138,5 +152,17 @@ is( $outbuf, '', "Check redirection result" );
 like( $stdout->read, qr/Status: 302 Moved\s+Location: $url/,
     "Check redirection header" );
 clear_bufs;
+
+##############################################################################
+# Make sure that redirect without abort works.
+$ENV{QUERY_STRING} = "$key|redir_cb0=1" .
+  "&$key|add_header_cb9=1";
+ok( $cgih->handle_request, "Handle redirect w/o abort" );
+ok( my $res = $stdout->read, "Get response headers" );
+like( $res, qr/Status: 302 Moved\s+Location: $url/,
+    "Check for redirection header" );
+like( $res, qr/Age: 42/, "Check for age header" );
+clear_bufs;
+
 
 __END__

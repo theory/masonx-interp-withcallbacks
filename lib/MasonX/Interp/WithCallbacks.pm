@@ -112,8 +112,8 @@ sub make_request {
 
     # Abort the request if that's what the callbacks want.
     HTML::Mason::Exception::Abort->throw
-        ( error         => 'Callback->abort was called',
-          aborted_value => $ret )
+      ( error         => 'Callback->abort was called',
+        aborted_value => $ret )
       unless ref $ret;
 
     # Copy the parameters back and continue. Too much copying!

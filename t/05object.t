@@ -1,6 +1,6 @@
 #!perl -w
 
-# $Id: 05object.t,v 1.1 2003/08/21 05:19:37 david Exp $
+# $Id: 05object.t,v 1.2 2003/08/24 22:20:38 david Exp $
 
 use strict;
 use Cwd;
@@ -298,10 +298,10 @@ for my $key ($base_key, $base_key . "Empty", $all) {
 
     ##########################################################################
     # Make sure that if we abort, no more callbacks execute.
-    $interp->exec($comp,
-                  "$key|test_abort_cb0" => 1,
-                  "$key|simple_cb" => 1,
-                  result => 'still here');
+    eval { $interp->exec($comp,
+                         "$key|test_abort_cb0" => 1,
+                         "$key|simple_cb" => 1,
+                         result => 'still here') };
     is( $outbuf, '', "Check abort result" );
     $outbuf = '';
 
