@@ -3,7 +3,7 @@ use Module::Build;
 my $build_pkg = eval { require Apache::TestMB }
   ? 'Apache::TestMB' : 'Module::Build';
 
-my $build = $build_pkg->new(
+$build_pkg->new(
     module_name        => 'MasonX::Interp::WithCallbacks',
     license            => 'perl',
     requires           => { 'HTML::Mason'             => '1.23',
