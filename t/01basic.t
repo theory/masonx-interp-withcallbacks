@@ -1,11 +1,11 @@
 #!perl -w
 
-# $Id: 01basic.t,v 1.4 2003/08/25 03:26:32 david Exp $
+# $Id: 01basic.t,v 1.5 2003/08/25 21:09:45 david Exp $
 
 use strict;
 use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir catfile);
-use Test::More tests => 41;
+use Test::More tests => 42;
 use HTML::Mason::Interp;
 
 BEGIN { use_ok('MasonX::Interp::WithCallbacks') }
@@ -194,6 +194,7 @@ ok( my $interp = MasonX::Interp::WithCallbacks->new
     "Construct interp object" );
 isa_ok($interp, 'MasonX::Interp::WithCallbacks');
 isa_ok($interp, 'HTML::Mason::Interp');
+isa_ok($interp->cb_request, 'Params::CallbackRequest');
 
 my $comp = '/dhandler';
 
