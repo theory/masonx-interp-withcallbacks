@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: MasonX-Interp-WithCallbacks
-version: 1.12
+version: 1.13
 author:
   - David Wheeler <david@kineticode.com>
 abstract: |-
@@ -11,10 +11,12 @@ requires:
   HTML::Mason: 1.23
   Params::CallbackRequest: 1.11
   Test::Simple: 0.17
+recommends:
+  Apache::TestMB: 0
 build_requires:
   Test::Simple: 0.17
 provides:
   MasonX::Interp::WithCallbacks:
     file: lib/MasonX/Interp/WithCallbacks.pm
-    version: 1.12
-generated_by: Module::Build version 0.25_01
+    version: 1.13
+generated_by: Module::Build version 0.2604
