@@ -89,9 +89,11 @@ sub new {
     my $self = $class->SUPER::new(@_);
     # This causes everything to be validated twice, but it shouldn't matter
     # much, since interp objects won't be created very often.
+    my $exh = delete $self->{cb_exception_handler};
     $self->{cb_request} = Params::CallbackRequest->new
-      ( map { $self->{$_} ? ($_ => delete $self->{$_}) : () }
-        map { s/^cb_ex/ex/; $_ } keys %{ __PACKAGE__->valid_params }
+      ( ($exh ? (exception_handler => $exh) : ()),
+       map { $self->{$_} ? ($_ => delete $self->{$_}) : () }
+        keys %{ __PACKAGE__->valid_params }
     );
     $self;
 }
