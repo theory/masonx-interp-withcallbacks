@@ -1,6 +1,6 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
-1.12
+1.12  2004-06-28T17:04:23
       - Fixed Apache tests to eliminate failure under more recent versions
         of Apache::Test and LWP.
       - Changed "%PARAMS" to the correct Mason hash, "%ARGS", in the synopsis.
