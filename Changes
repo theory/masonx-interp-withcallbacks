@@ -1,0 +1,6 @@
+Revision history for Perl extension MasonX::Interp::WithCallbacks.
+
+0.01  Tue Aug 19 17:31:44 2003
+	- original version; created by h2xs 1.22 with options
+		-An MasonX::Interp::WithCallbacks
+

@@ -1,0 +1,7 @@
+Changes
+MANIFEST			This list of files
+Makefile.PL
+README
+lib/MasonX/Interp/WithCallbacks.pm
+t/01basic.t
+t/comp/dhandler
