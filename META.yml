@@ -7,7 +7,7 @@ installdirs:  site
 requires:
     Class::Container:              0.09
     HTML::Mason:                   1.23
-    Params::CallbackRequest:       1.10
+    Params::CallbackRequest:       1.11
     Test::Simple:                  0.17
 
 distribution_type: module
