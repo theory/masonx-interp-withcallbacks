@@ -1,11 +1,11 @@
 #!perl -w
 
-# $Id: 01basic.t,v 1.3 2003/08/24 22:59:20 david Exp $
+# $Id: 01basic.t,v 1.4 2003/08/25 03:26:32 david Exp $
 
 use strict;
 use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir catfile);
-use Test::More tests => 39;
+use Test::More tests => 41;
 use HTML::Mason::Interp;
 
 BEGIN { use_ok('MasonX::Interp::WithCallbacks') }
@@ -137,6 +137,25 @@ sub submit {
 push @$cbs, { pkg_key => $key,
               cb_key  => 'submit',
               cb      => \&submit
+            };
+
+##############################################################################
+# We'll use this callback to throw exceptions.
+sub exception {
+    my $cb = shift;
+    my $params = $cb->params;
+    if ($cb->value) {
+        # Throw an exception object.
+        HTML::Mason::Exception->throw( error => "He's dead, Jim" );
+    } else {
+        # Just die.
+        die "He's dead, Jim";
+    }
+}
+
+push @$cbs, { pkg_key => $key,
+              cb_key  => 'exception',
+              cb      => \&exception
             };
 
 ##############################################################################
@@ -285,6 +304,20 @@ $outbuf = '';
 # But 0 should succeed.
 $interp->exec($comp, "$key|simple_cb" => 0);
 is( $outbuf, 'Success', "Check 0 result" );
+$outbuf = '';
+
+##############################################################################
+# Test the exception handler.
+ok( $interp = MasonX::Interp::WithCallbacks->new
+    ( comp_root    => catdir($Bin, qw(htdocs)),
+      callbacks    => $cbs,
+      cb_exception_handler => sub {
+          like( $_[0], qr/^He's dead, Jim at/,
+                "Check our die message" );
+      },
+      out_method   => \$outbuf ),
+    "Construct interp object that handles exceptions" );
+$interp->exec($comp, "$key|exception_cb" => 0);
 $outbuf = '';
 
 __END__
