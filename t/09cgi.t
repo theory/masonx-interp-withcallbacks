@@ -1,11 +1,11 @@
 #!perl -w
 
-# $Id: 09cgi.t,v 1.3 2003/08/24 22:59:20 david Exp $
+# $Id: 09cgi.t,v 1.4 2003/10/08 18:27:16 david Exp $
 
 use strict;
 use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir);
-use Test::More tests => 24;
+use Test::More tests => 26;
 use CGI qw(-no_debug);
 use HTML::Mason::CGIHandler;
 
@@ -149,8 +149,9 @@ clear_bufs;
 $ENV{QUERY_STRING} = "$key|redir_cb=0";
 ok( $cgih->handle_request, "Handle redirection request" );
 is( $outbuf, '', "Check redirection result" );
-like( $stdout->read, qr/Status: 302 Moved\s+Location: $url/,
-    "Check redirection header" );
+ok( my $out = $stdout->read, "Get contents of STDOUT" );
+like( $out, qr/Status: 302 Moved/, "Check Status header" );
+like( $out, qr/Location: $url/, "Check Location header" );
 clear_bufs;
 
 ##############################################################################
