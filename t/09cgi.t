@@ -1,11 +1,11 @@
 #!perl -w
 
-# $Id: 09cgi.t,v 1.5 2003/10/08 18:30:22 david Exp $
+# $Id: 09cgi.t,v 1.6 2003/10/08 18:32:06 david Exp $
 
 use strict;
 use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir);
-use Test::More tests => 26;
+use Test::More tests => 27;
 use CGI qw(-no_debug);
 use HTML::Mason::CGIHandler;
 
