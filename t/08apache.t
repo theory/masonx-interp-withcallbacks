@@ -1,6 +1,6 @@
 #!perl -w
 
-# $Id: 08apache.t,v 1.6 2003/10/08 20:11:58 david Exp $
+# $Id: 08apache.t,v 1.7 2003/11/07 21:55:58 david Exp $
 
 use strict;
 use Test::More;
@@ -17,6 +17,9 @@ BEGIN {
 
     plan tests => 178;
 }
+
+Apache::TestRequest::user_agent(reset => 1,
+                                requests_redirectable => 0);
 
 my $key = 'myCallbackTester';
 my @keys = (myCallbackTester => '/test',
