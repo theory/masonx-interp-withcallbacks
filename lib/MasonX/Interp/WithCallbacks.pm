@@ -105,6 +105,7 @@ sub make_request {
     # We have to grab the parameters and copy them into a hash.
     my %params = @{$p{args}};
 
+    # Grab the apache request object, if it exists.
     my $apache_req = $p{apache_req}
       || $self->delayed_object_params('request', 'apache_req')
       || $self->delayed_object_params('request', 'cgi_request');
