@@ -1,13 +1,13 @@
 #!perl -w
 
-# $Id: 08apache.t,v 1.8 2004/06/22 20:09:19 david Exp $
+# $Id: 08apache.t,v 1.9 2004/06/26 03:51:02 david Exp $
 
 use strict;
 use Test::More;
 
 BEGIN {
     plan skip_all => 'Testing of apache_req requires Apache::Test 1.04'
-      unless eval { require Apache::Test && Apache::Test->VERSION >= 1.04 };
+      unless eval { require Apache::Test };
 
     plan skip_all => 'Test of apache_req requires mod_perl'
       unless Apache::Test::have_module('mod_perl.c');
@@ -179,30 +179,34 @@ ok( my $res = POST("/test?myNoSuchLuck|foo_cb=1"),
 is( $res->code, 500, "Check non-existent callback response code" );
 
 # Make sure that redirects work.
-ok( $res = POST("/test",
-                ["$key|redir_cb" => 0,
-                 "$key|add_header_cb9" => 1,
-                 "header" => 'Age',
-                 "value" => 42 ]
-               ),
-    "Get redirect response" );
-is( $res->code, 302, "Check redirect response code" );
-is( $res->header('Location'), 'http://example.com/',
-    "Check redirect location" );
-is( $res->header('Age'), undef, "Check redirect Age header" );
+SKIP: {
+    skip "Redirect tests rrequire Apache::Test 1.04 or newer", 8
+      unless Apache::Test->VERSION >= 1.04;
+    ok( $res = POST("/test",
+                    ["$key|redir_cb" => 0,
+                     "$key|add_header_cb9" => 1,
+                     "header" => 'Age',
+                     "value" => 42 ]
+                ),
+        "Get redirect response" );
+    is( $res->code, 302, "Check redirect response code" );
+    is( $res->header('Location'), 'http://example.com/',
+        "Check redirect location" );
+    is( $res->header('Age'), undef, "Check redirect Age header" );
 
-# Make sure that redirect without abort works.
-ok( $res = POST("/test",
-                ["$key|redir_cb0" => 1,
-                 "$key|add_header_cb9" => 1,
-                 "header" => 'Age',
-                 "value" => 42 ]
-               ),
-    "Get redirect without abort response" );
-is( $res->code, 302, "Check redirect without abort response code" );
-is( $res->header('Location'), 'http://example.com/',
-    "Check redirect without abort location" );
-is( $res->header('Age'), 42, "Check redirect without abort Age header" );
+    # Make sure that redirect without abort works.
+    ok( $res = POST("/test",
+                    ["$key|redir_cb0" => 1,
+                     "$key|add_header_cb9" => 1,
+                     "header" => 'Age',
+                     "value" => 42 ]
+                ),
+        "Get redirect without abort response" );
+    is( $res->code, 302, "Check redirect without abort response code" );
+    is( $res->header('Location'), 'http://example.com/',
+        "Check redirect without abort location" );
+    is( $res->header('Age'), 42, "Check redirect without abort Age header" );
+}
 
 # Make sure that abort 200 works.
 ok( $res = POST("/test", [ "$key|test_abort_cb" => 200 ]),

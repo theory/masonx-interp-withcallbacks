@@ -5,6 +5,8 @@ Revision history for Perl extension MasonX::Interp::WithCallbacks.
         of Apache::Test and LWP.
       - Changed "%PARAMS" to the correct Mason hash, "%ARGS", in the synopsis.
         Reported by Mike Dorman.
+      - Ported installer from ExtUtils::MakeMaker to Module::Build using the
+        newly released Apache::TestMB.
 
 1.11  Wed Oct  8 20:12:20 2003
       - Require Class::Container 0.09 or later. It seems that older versions

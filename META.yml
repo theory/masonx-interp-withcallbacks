@@ -1,14 +1,20 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         MasonX-Interp-WithCallbacks
-version:      1.11
-version_from: lib/MasonX/Interp/WithCallbacks.pm
-installdirs:  site
+--- #YAML:1.0
+name: MasonX-Interp-WithCallbacks
+version: 1.12
+author:
+  - David Wheeler <david@kineticode.com>
+abstract: |-
+  Mason callback support via Params::CallbackRequest.
+license: perl
 requires:
-    Class::Container:              0.09
-    HTML::Mason:                   1.23
-    Params::CallbackRequest:       1.11
-    Test::Simple:                  0.17
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.17
+  Class::Container: 0.09
+  HTML::Mason: 1.23
+  Params::CallbackRequest: 1.11
+  Test::Simple: 0.17
+build_requires:
+  Test::Simple: 0.17
+provides:
+  MasonX::Interp::WithCallbacks:
+    file: lib/MasonX/Interp/WithCallbacks.pm
+    version: 1.12
+generated_by: Module::Build version 0.25_01
