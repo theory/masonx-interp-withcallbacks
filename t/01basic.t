@@ -1,9 +1,9 @@
 #!perl -w
 
-# $Id: 01basic.t,v 1.2 2003/08/21 05:19:37 david Exp $
+# $Id: 01basic.t,v 1.3 2003/08/24 22:59:20 david Exp $
 
 use strict;
-use Cwd;
+use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir catfile);
 use Test::More tests => 39;
 use HTML::Mason::Interp;
@@ -167,7 +167,7 @@ sub flip {
 ##############################################################################
 my $outbuf;
 ok( my $interp = MasonX::Interp::WithCallbacks->new
-    ( comp_root  => catdir(cwd, qw(t comp)),
+    ( comp_root  => catdir($Bin, qw(htdocs)),
       callbacks  => $cbs,
       post_callbacks => [\&upper],
       pre_callbacks  => [\&flip],
@@ -262,7 +262,7 @@ is( $outbuf, 'SUCCESS', "Check post result" );
 $outbuf = '';
 
 ok( $interp = MasonX::Interp::WithCallbacks->new
-    ( comp_root    => catdir(cwd, qw(t comp)),
+    ( comp_root    => catdir($Bin, qw(htdocs)),
       callbacks    => $cbs,
       ignore_nulls => 1,
       out_method   => \$outbuf ),

@@ -1,8 +1,9 @@
 #!perl -w
 
-# $Id: 10pod.t,v 1.1 2003/08/21 05:19:37 david Exp $
+# $Id: 10pod.t,v 1.2 2003/08/24 22:59:20 david Exp $
 
 use Test::More;
+use FindBin qw($Bin);
 use File::Spec;
 use File::Find;
 use strict;
@@ -14,7 +15,7 @@ if ($@) {
 } else {
     Test::Pod->import;
     my @files;
-    my $blib = File::Spec->catfile(qw(blib lib));
+    my $blib = File::Spec->catfile($Bin, File::Spec->updir, qw(blib lib));
     find( sub {push @files, $File::Find::name if /\.p(l|m|od)$/}, $blib);
     plan tests => scalar @files;
     foreach my $file (@files) {

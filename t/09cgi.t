@@ -1,16 +1,16 @@
 #!perl -w
 
-# $Id: 09cgi.t,v 1.2 2003/08/24 22:20:38 david Exp $
+# $Id: 09cgi.t,v 1.3 2003/08/24 22:59:20 david Exp $
 
 use strict;
-use Cwd;
-use File::Spec::Functions qw(catdir catfile);
+use FindBin qw($Bin);
+use File::Spec::Functions qw(catdir);
 use Test::More tests => 24;
 use CGI qw(-no_debug);
 use HTML::Mason::CGIHandler;
 
 BEGIN {
-    unshift @INC, catdir qw(t lib);
+    unshift @INC, catdir $Bin, 'lib';
 }
 use TieOut;
 
@@ -111,7 +111,7 @@ push @$cbs, { pkg_key => $key,
 # Set up Mason objects.
 ##############################################################################
 ok( my $cgih = HTML::Mason::CGIHandler->new
-    ( comp_root    => catdir(cwd, qw(t comp)),
+    ( comp_root    => catdir($Bin, qw(htdocs)),
       callbacks    => $cbs,
       interp_class => 'MasonX::Interp::WithCallbacks',
       out_method   => \$outbuf ),

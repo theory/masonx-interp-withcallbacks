@@ -4,4 +4,4 @@ Makefile.PL
 README
 lib/MasonX/Interp/WithCallbacks.pm
 t/01basic.t
-t/comp/dhandler
+t/htdocs/dhandler

@@ -1,9 +1,9 @@
 #!perl -w
 
-# $Id: 03keys.t,v 1.1 2003/08/21 05:19:37 david Exp $
+# $Id: 03keys.t,v 1.2 2003/08/24 22:59:20 david Exp $
 
 use strict;
-use Cwd;
+use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir catfile);
 use Test::More tests => 10;
 use HTML::Mason::Interp;
@@ -70,7 +70,7 @@ push @$cbs, { pkg_key => $key,
 ##############################################################################
 my $outbuf;
 ok( my $interp = MasonX::Interp::WithCallbacks->new
-    ( comp_root  => catdir(cwd, qw(t comp)),
+    ( comp_root  => catdir($Bin, qw(htdocs)),
       callbacks  => $cbs,
       out_method => \$outbuf ),
     "Construct interp object" );

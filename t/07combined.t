@@ -1,9 +1,9 @@
 #!perl -w
 
-# $Id: 07combined.t,v 1.1 2003/08/21 05:19:37 david Exp $
+# $Id: 07combined.t,v 1.2 2003/08/24 22:59:20 david Exp $
 
 use strict;
-use Cwd;
+use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir catfile);
 use Test::More;
 use HTML::Mason::Interp;
@@ -95,7 +95,7 @@ sub presto {
 # Construct the combined callback exec object.
 my $outbuf;
 ok( my $interp = MasonX::Interp::WithCallbacks->new
-    (comp_root  => catdir(cwd, qw(t comp)),
+    (comp_root  => catdir($Bin, qw(htdocs)),
      out_method => \$outbuf,
      callbacks => [{ pkg_key => 'foo',
                       cb_key => 'another',

@@ -1,9 +1,9 @@
 #!perl -w
 
-# $Id: 05object.t,v 1.2 2003/08/24 22:20:38 david Exp $
+# $Id: 05object.t,v 1.3 2003/08/24 22:59:20 david Exp $
 
 use strict;
-use Cwd;
+use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir catfile);
 use Test::More;
 use HTML::Mason::Interp;
@@ -189,7 +189,7 @@ my %classes = ( $base_key           => 'Params::Callback::TestObjects',
                 $base_key . 'Empty' => 'Params::Callback::TestObjects::Empty');
 
 my $outbuf;
-my %mason_params = (comp_root  => catdir(cwd, qw(t comp)),
+my %mason_params = (comp_root  => catdir($Bin, qw(htdocs)),
                     out_method => \$outbuf);
 
 use_ok('MasonX::Interp::WithCallbacks');
