@@ -2,8 +2,11 @@
 
 use strict;
 use ExtUtils::MakeMaker;
-use File::Spec::Functions qw(catfile catdir);
-use constant HAS_APACHE_TEST => eval {require Apache::Test};
+use File::Spec::Functions qw(catdir);
+use constant HAS_APACHE_TEST => eval {
+    require Apache::Test
+      && Apache::Test->VERSION >= 1.04
+};
 
 # Set up the test suite.
 if (HAS_APACHE_TEST) {
@@ -16,8 +19,7 @@ if (HAS_APACHE_TEST) {
     print "Skipping Apache test setup.\n";
 }
 
-my $clean = join ' ', map { catfile('t', $_) }
-  qw(mason TEST logs);
+my $clean = join ' ', map { catdir('t', $_) } qw(mason TEST logs);
 
 WriteMakefile(
     NAME		=> 'MasonX::Interp::WithCallbacks',

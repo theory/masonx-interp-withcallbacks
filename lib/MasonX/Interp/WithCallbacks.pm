@@ -153,8 +153,8 @@ MasonX::Interp::WithCallbacks - Mason callback support via Params::CallbackReque
 
 In your Mason component:
 
-  % if (exists $PARAMS{answer}) {
-  <p><b>Answer: <% $PARAMS{answer} %></b></p>
+  % if (exists $ARGS{answer}) {
+  <p><b>Answer: <% $ARGS{answer} %></b></p>
   % } else {
   <form>
     <p>Enter an epoch time: <input type="text" name="epoch_time" /><br />

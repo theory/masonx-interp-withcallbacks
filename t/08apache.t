@@ -1,13 +1,13 @@
 #!perl -w
 
-# $Id: 08apache.t,v 1.7 2003/11/07 21:55:58 david Exp $
+# $Id: 08apache.t,v 1.8 2004/06/22 20:09:19 david Exp $
 
 use strict;
 use Test::More;
 
 BEGIN {
-    plan skip_all => 'Testing of apache_req requires Apache::Test'
-      unless eval {require Apache::Test};
+    plan skip_all => 'Testing of apache_req requires Apache::Test 1.04'
+      unless eval { require Apache::Test && Apache::Test->VERSION >= 1.04 };
 
     plan skip_all => 'Test of apache_req requires mod_perl'
       unless Apache::Test::have_module('mod_perl.c');
