@@ -1,6 +1,6 @@
 #!perl -w
 
-# $Id: 08apache.t,v 1.4 2003/09/07 18:08:00 david Exp $
+# $Id: 08apache.t,v 1.5 2003/10/08 17:58:35 david Exp $
 
 use strict;
 use Test::More;
@@ -9,8 +9,8 @@ BEGIN {
     plan skip_all => 'Testing of apache_req requires Apache::Test'
       unless eval {require Apache::Test};
 
-    plan skip_all => 'Test of apache_req requires libwww-perl'
-      unless Apache::Test::have_lwp();
+    plan skip_all => 'Test of apache_req requires mod_perl'
+      unless Apache::Test::have_module('mod_perl.c');
 
     require Apache::TestRequest;
     Apache::TestRequest->import(qw(GET POST));
