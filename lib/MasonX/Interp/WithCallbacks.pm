@@ -100,16 +100,21 @@ sub make_request {
     my ($self, %p) = @_;
     # We have to grab the parameters and copy them into a hash.
     my %params = @{$p{args}};
+
+    my $apache_req = $p{apache_req}
+      || $self->delayed_object_params('request', 'apache_req')
+      || $self->delayed_object_params('request', 'cgi_request');
+
     # Execute the callbacks.
-    my $ret =  $self->{cb_request}->request(\%params, $p{apache_req} ?
-                                            (apache_req => $p{apache_req}) :
+    my $ret =  $self->{cb_request}->request(\%params, $apache_req ?
+                                            (apache_req => $apache_req) :
                                             ());
+
     # Abort the request if that's what the callbacks want.
-    return $ret unless ref $ret;
-#    HTML::Mason::Exception::Abort->throw
-#        ( error => 'Callback->abort was called',
-#          aborted_value => $ret )
-#      unless ref $ret;
+    HTML::Mason::Exception::Abort->throw
+        ( error         => 'Callback->abort was called',
+          aborted_value => $ret )
+      unless ref $ret;
 
     # Copy the parameters back and continue. Too much copying!
     $p{args} = [%params];

@@ -1,11 +1,11 @@
 #!perl -w
 
-# $Id: 01basic.t,v 1.1 2003/08/20 05:16:50 david Exp $
+# $Id: 01basic.t,v 1.2 2003/08/21 05:19:37 david Exp $
 
 use strict;
 use Cwd;
 use File::Spec::Functions qw(catdir catfile);
-use Test::More tests => 36;
+use Test::More tests => 39;
 use HTML::Mason::Interp;
 
 BEGIN { use_ok('MasonX::Interp::WithCallbacks') }
@@ -228,11 +228,14 @@ $outbuf = '';
 ##############################################################################
 # Test the abort functionality. The abort callback's higher priority should
 # cause it to prevent simple from being called.
-$interp->exec($comp,
-              "$key|simple_cb" => 1,
-              "$key|test_abort_cb0" => 1 );
-
+eval { $interp->exec($comp,
+                     "$key|simple_cb" => 1,
+                     "$key|test_abort_cb0" => 1 ) };
+ok( my $err = $@, "Catch exception" );
+isa_ok( $err, 'HTML::Mason::Exception::Abort' );
+is( $err->aborted_value, 1, "Check aborted value" );
 is( $outbuf, '', "Check abort result" );
+$outbuf = '';
 
 ##############################################################################
 # Test the aborted method.
