@@ -1,6 +1,21 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
-0.01  Tue Aug 19 17:31:44 2003
-	- original version; created by h2xs 1.22 with options
-		-An MasonX::Interp::WithCallbacks
-
+1.10  
+      - Code moved over from MasonX::ApacheHandler::WithCallbacks, which is
+        deprecated. Differences from that class are as follows.
+      - Callback handling code from MasonX::ApacheHandler::WithCallbacks has
+        been migrated to Params::CallbackRequest.
+      - Code from MasonX::CallbackHandler has been migrated to
+        Params::Callback.
+      - MasonX::CallbackTester has been removed, since it isn't necessary
+        in a non-mod_perl environment.
+      - Params::CallbackRequest::Exceptions supplies the exceptions thrown by
+        Params::CallbackRequest, since that module is not strictly connected
+        to Mason.
+      - Changed the C<request_args()> accessor from that was in
+        MasonX::CallbackHandler to C<params()> in Params::Callback, to reflect
+        the idea that this is a generic parameter-triggered callback
+        architecture.
+      - Replaced teh C<ah()> accessor, since the callback controller isn't
+        a Mason ApacheHandler anymore, with C<cb_request()> in Params::Callback.
+      - Added C<cb_request() accessor to MasonX::Interp::WithCallbacks.
