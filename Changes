@@ -1,6 +1,6 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
-1.11
+1.11  Wed Oct  8 18:00:32 2003
       - Require Class::Container 0.09 or later. It seems that older versions
         don't work properly.
       - Updated Apache test to skip tests if the Apache server doesn't run
