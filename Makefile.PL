@@ -17,12 +17,12 @@ if (HAS_APACHE_TEST) {
 }
 
 my $clean = join ' ', map { catfile('t', $_) }
-  qw(TEST logs);
+  qw(mason TEST logs);
 
 WriteMakefile(
     NAME		=> 'MasonX::Interp::WithCallbacks',
     VERSION_FROM	=> 'lib/MasonX/Interp/WithCallbacks.pm',
-    PREREQ_PM		=> { 'HTML::Mason'             => '1.10',
+    PREREQ_PM		=> { 'HTML::Mason'             => '1.23',
                              'Apache::Test'            => '1.03',
                              'Test::Simple'            => '0.17',
                              'Params::CallbackRequest' => '1.10' },

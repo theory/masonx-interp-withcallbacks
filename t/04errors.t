@@ -1,11 +1,11 @@
 #!perl -w
 
-# $Id: 04errors.t,v 1.2 2003/08/24 22:59:20 david Exp $
+# $Id: 04errors.t,v 1.3 2003/08/25 18:57:13 david Exp $
 
 use strict;
 use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir catfile);
-use Test::More tests => 41;
+use Test::More tests => 42;
 use HTML::Mason::Interp;
 
 BEGIN { use_ok('MasonX::Interp::WithCallbacks') }
