@@ -25,7 +25,7 @@ WriteMakefile(
     PREREQ_PM		=> { 'HTML::Mason'             => '1.23',
                              'Test::Simple'            => '0.17',
                              'Class::Container'        => '0.09',
-                             'Params::CallbackRequest' => '1.10' },
+                             'Params::CallbackRequest' => '1.11' },
     clean               => { FILES => $clean },
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM    => 'lib/MasonX/Interp/WithCallbacks.pm',

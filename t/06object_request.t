@@ -1,6 +1,6 @@
 #!perl -w
 
-# $Id: 06object_request.t,v 1.2 2003/08/24 22:59:20 david Exp $
+# $Id: 06object_request.t,v 1.3 2003/10/08 20:11:58 david Exp $
 
 use strict;
 use FindBin qw($Bin);
@@ -201,7 +201,7 @@ $outbuf = '';
 $interp->exec($comp,
              do_upper => 1,
               result   => 'taKe mE uP aGain!');
-is( $outbuf, 'TAKE ME UP AGAIN! PRECALLBACK Overridden PostCallback',
+is( $outbuf, 'TAKE ME UP AGAIN! Overridden PreCallback PostCallback',
     "Check subclassed pre callback result" );
 $outbuf = '';
 
