@@ -1,4 +1,4 @@
-MasonX/Interp/WithCallbacks version 1.12
+MasonX/Interp/WithCallbacks version 1.13
 ========================================
 
 MasonX::Interp::WithCallbacks subclasses HTML::Mason::Interp in order to
@@ -52,7 +52,7 @@ Testing of this module with HTML::Mason::ApacheHandler requires:
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2003 David Wheeler
+Copyright (C) 2003-2004 David Wheeler
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
