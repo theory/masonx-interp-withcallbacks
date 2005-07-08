@@ -1,10 +1,9 @@
---- #YAML:1.0
+---
 name: MasonX-Interp-WithCallbacks
-version: 1.13
+version: 1.14
 author:
   - David Wheeler <david@kineticode.com>
-abstract: |-
-  Mason callback support via Params::CallbackRequest.
+abstract: Mason callback support via Params::CallbackRequest.
 license: perl
 requires:
   Class::Container: 0.09
@@ -18,5 +17,5 @@ build_requires:
 provides:
   MasonX::Interp::WithCallbacks:
     file: lib/MasonX/Interp/WithCallbacks.pm
-    version: 1.13
-generated_by: Module::Build version 0.2604
+    version: 1.14
+generated_by: Module::Build version 0.26
