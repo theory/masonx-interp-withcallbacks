@@ -6,3 +6,4 @@
 ^MANIFEST\.SKIP$
 ^MasonX-Interp-WithCallbacks
 \.svn
+^t.TEST$

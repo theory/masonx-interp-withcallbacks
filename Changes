@@ -1,6 +1,8 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
-1.15
+1.15  2006-05-26T23:02:03
+      - Added missing t/htdocs/alt.mc to MANIFEST and therefore to the
+        distribution. D'oh!
 
 1.14  2006-05-26T22:55:15
       - Now passing the the interp object to callbacks via the new 'requster'
