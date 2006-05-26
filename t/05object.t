@@ -1,6 +1,6 @@
 #!perl -w
 
-# $Id: 05object.t,v 1.3 2003/08/24 22:59:20 david Exp $
+# $Id$
 
 use strict;
 use FindBin qw($Bin);
@@ -22,7 +22,7 @@ BEGIN {
       unless eval { require Attribute::Handlers }
       and eval { require Class::ISA };
 
-    plan tests => 130;
+    plan tests => 133;
 }
 
 ##############################################################################
@@ -130,6 +130,17 @@ sub same_object : Callback {
     } else {
         $params->{obj} = $self;
     }
+}
+
+sub isa_interp : Callback {
+    my $self      = shift;
+    main::isa_ok $self->requester, 'MasonX::Interp::WithCallbacks',
+        'the requester object';
+}
+
+sub change_comp : Callback {
+    my $self = shift;
+    $self->requester->comp_path($self->value);
 }
 
 1;
@@ -347,6 +358,13 @@ for my $key ($base_key, $base_key . "Empty", $all) {
     ##########################################################################
     # Check priority 0 sticks.
     $interp->exec($comp, "$key|highest_cb" => undef);
+    $outbuf = '';
+
+    ##########################################################################
+    # Requester should be WithCallbacks object.
+    $interp->exec($comp, "$key|change_comp_cb" => '/alt.mc');
+    is $outbuf, 'This is the alt component.',
+        'The alt component should have executed';
     $outbuf = '';
 }
 

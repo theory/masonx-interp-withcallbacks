@@ -1,6 +1,13 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
 1.14
+      - Now passing the the interp object to callbacks via the new 'requster'
+        parameter the request() method of Params::CallbacRequest, introduced
+        in version 1.15 of that module.
+      - Added the comp_path() accessor. This so that callbacks can change it
+        if they want, by calling $cb->requester->comp_path($comp_path).
+      - Fixed CGI redirect tests to be compliant with the new "302 Found"
+        header created by CGI.pm. It used to be "302 Moved".
 
 1.13  2004-11-19T02:37:50
       - Makefile.PL no longer requires Apache::TestMB, since it may not

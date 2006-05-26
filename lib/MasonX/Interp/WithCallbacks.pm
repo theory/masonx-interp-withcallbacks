@@ -14,7 +14,10 @@ Params::Validate::validation_options
   ( on_fail => sub { HTML::Mason::Exception::Params->throw( join '', @_ ) } );
 
 
-use HTML::Mason::MethodMaker( read_only => [qw(cb_request)] );
+use HTML::Mason::MethodMaker(
+    read_only  => [qw(cb_request)],
+    read_write => [qw(comp_path)],
+);
 
 # We'll use this code reference to eval arguments passed in via httpd.conf
 # PerlSetVar directives.
@@ -105,6 +108,7 @@ sub make_request {
     my ($self, %p) = @_;
     # We have to grab the parameters and copy them into a hash.
     my %params = @{$p{args}};
+    $self->{comp_path} = $p{comp};
 
     # Grab the apache request object, if it exists.
     my $apache_req = $p{apache_req}
@@ -112,20 +116,24 @@ sub make_request {
       || $self->delayed_object_params('request', 'cgi_request');
 
     # Execute the callbacks.
-    my $ret =  $self->{cb_request}->request(\%params, $apache_req ?
-                                            (apache_req => $apache_req) :
-                                            ());
+    my $ret =  $self->{cb_request}->request(
+        \%params,
+        requester => $self,
+        $apache_req ? ( apache_req => $apache_req ) : (),
+    );
 
     # Abort the request if that's what the callbacks want.
     unless (ref $ret) {
         $self->{cb_request}->clear_notes;
-        HTML::Mason::Exception::Abort->throw
-          ( error         => 'Callback->abort was called',
-            aborted_value => $ret );
+        HTML::Mason::Exception::Abort->throw(
+            error         => 'Callback->abort was called',
+            aborted_value => $ret,
+        );
     }
 
     # Copy the parameters back -- too much copying!
     $p{args} = [%params];
+    $p{comp} = $self->{comp_path};
 
     # Get the request, copy the notes, and continue.
     my $req = $self->SUPER::make_request(%p);
@@ -811,12 +819,45 @@ All of the above parameters to C<new()> are passed to the
 Params::CallbackRequest constructor and deleted from the
 MasonX::Interp::WithCallbacks object. MasonX::Interp::WithCallbacks then
 contains a Params::CallbackRequest object that it uses to handle the execution
-of all callbacks for each request. Thus MasonX::Interp::WithCallbacks adds a
-single accessor, C<cb_request()>, to return the Params::CallbackRequest
-object.
+of all callbacks for each request.
+
+=head3 cb_request
 
   my $interp = MasonX::Interp::WithCallbacks->new;
   my $cb_request = $interp->cb_request;
+
+Returns the Params::CallbackRequest object in use during the execution of
+C<make_request()>.
+
+=head3 comp_path
+
+  my $comp_path = $interp->comp_path;
+  $interp->comp_path($comp_path);
+
+Returns the component path resolved by Mason during the execution of
+C<handle_request()>. The cool thing is that it can be changed during the
+execution of callback methods:
+
+  sub change_path :Callback {
+      my $cb = shift;
+      my $interp = $cb->requester;
+      $inpter->comp_path($some_other_path);
+  }
+
+In this example, we have overridden the component path determined by the
+Mason resolver in favor of an alternate component, which will be executed,
+instead.
+
+=head2 Requester
+
+The MasonX::Interp::WithCallbacks object is available in all callback methods
+via the C<requester()> accessor:
+
+  sub access_interp :Callback {
+      my $cb = shift;
+      my $interp = $cb->requester;
+      # ...
+  }
 
 =head2 Notes
 
@@ -860,7 +901,7 @@ David Wheeler <david@kineticode.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2003-2004 by David Wheeler
+Copyright 2003-2006 by David Wheeler
 
 This library is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.

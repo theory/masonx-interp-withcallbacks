@@ -10,7 +10,7 @@ $build_pkg->new(
         'HTML::Mason'             => '1.23',
         'Test::Simple'            => '0.17',
         'Class::Container'        => '0.09',
-        'Params::CallbackRequest' => '1.11',
+        'Params::CallbackRequest' => '1.15',
     },
     build_requires     => {
         'Test::Simple' => '0.17'
