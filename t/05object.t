@@ -22,7 +22,7 @@ BEGIN {
       unless eval { require Attribute::Handlers }
       and eval { require Class::ISA };
 
-    plan tests => 133;
+    plan tests => 136;
 }
 
 ##############################################################################
@@ -362,6 +362,11 @@ for my $key ($base_key, $base_key . "Empty", $all) {
 
     ##########################################################################
     # Requester should be WithCallbacks object.
+    $interp->exec($comp, "$key|isa_interp_cb" => 1);
+    $outbuf = '';
+
+    ##########################################################################
+    # Changing the comp path should change the executed component.
     $interp->exec($comp, "$key|change_comp_cb" => '/alt.mc');
     is $outbuf, 'This is the alt component.',
         'The alt component should have executed';

@@ -2,20 +2,25 @@
 name: MasonX-Interp-WithCallbacks
 version: 1.14
 author:
-  - David Wheeler <david@kineticode.com>
+  - 'David Wheeler <david@kineticode.com>'
 abstract: Mason callback support via Params::CallbackRequest.
 license: perl
+resources:
+  license: http://dev.perl.org/licenses/
 requires:
   Class::Container: 0.09
   HTML::Mason: 1.23
-  Params::CallbackRequest: 1.11
+  Params::CallbackRequest: 1.15
+  Test::Simple: 0.17
+build_requires:
   Test::Simple: 0.17
 recommends:
   Apache::TestMB: 0
-build_requires:
-  Test::Simple: 0.17
 provides:
   MasonX::Interp::WithCallbacks:
     file: lib/MasonX/Interp/WithCallbacks.pm
     version: 1.14
-generated_by: Module::Build version 0.26
+generated_by: Module::Build version 0.2801
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2
