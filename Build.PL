@@ -18,6 +18,5 @@ $build_pkg->new(
     recommends         => {
         'Apache::TestMB' => 0
     },
-    create_makefile_pl => 'passthrough',
     add_to_cleanup     => ['t/mason'],
 )->create_build_script;

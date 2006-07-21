@@ -1,5 +1,9 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
+1.16
+      - Replaced broken passthrough Makefile.PL with a real Makefile.PL.
+        Reported by Scott Lanning.
+
 1.15  2006-05-26T23:02:03
       - Added missing t/htdocs/alt.mc to MANIFEST and therefore to the
         distribution. D'oh!
