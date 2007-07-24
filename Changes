@@ -1,5 +1,7 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
+1.18
+
 1.17  2007-07-24T19:37:47
       - Fixed test failures with Mason 1.36. Patch from Niko Tyni.
 
