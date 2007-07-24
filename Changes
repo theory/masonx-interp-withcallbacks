@@ -1,6 +1,7 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
-1.17
+1.17  2007-07-24T19:37:47
+      - Fixed test failures with Mason 1.36. Patch from Niko Tyni.
 
 1.16  2006-07-21T17:00:55
       - Replaced broken passthrough Makefile.PL with a real Makefile.PL.
