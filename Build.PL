@@ -6,17 +6,17 @@ my $build_pkg = eval { require Apache::TestMB }
 $build_pkg->new(
     module_name        => 'MasonX::Interp::WithCallbacks',
     license            => 'perl',
+    configure_requires => { 'Module::Build' => '0.2701' },
+    build_requires     => { 'Test::More'    => '0.17'   },
+    recommends         => {
+        'Test::Pod'      => '1.20',
+        'Apache::TestMB' => 0
+    },
     requires           => {
         'HTML::Mason'             => '1.23',
         'Test::Simple'            => '0.17',
         'Class::Container'        => '0.09',
         'Params::CallbackRequest' => '1.15',
-    },
-    build_requires     => {
-        'Test::Simple' => '0.17'
-    },
-    recommends         => {
-        'Apache::TestMB' => 0
     },
     add_to_cleanup     => ['t/mason'],
 )->create_build_script;
