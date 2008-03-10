@@ -3,6 +3,7 @@ Revision history for Perl extension MasonX::Interp::WithCallbacks.
 1.18
       - Added "configure_requires" parameter to Build.PL and added Test::Pod
         to the "recommends" parameter.
+      - Updated POD test to require Test::Pod 1.20 or later.
 
 1.17  2007-07-24T19:37:47
       - Fixed test failures with Mason 1.36. Patch from Niko Tyni.
