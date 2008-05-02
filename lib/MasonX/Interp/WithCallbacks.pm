@@ -873,9 +873,14 @@ be available for the lifetime of the Mason request via
 C<< $interp->cb_request->notes >>. Notes will be cleared out at the end of the
 request, just as with C<< $r->pnotes >>.
 
-=head1 BUGS
+=head1 SUPPORT
 
-Please send bug reports to <bug-masonx-interp-withcallbacks@rt.cpan.org>.
+This module is stored in an open repository at the following address:
+
+L<https://svn.kineticode.com/MasonX-Interp-WithCallbacks/trunk/>
+
+Patches against SVN::Notify are welcome. Please send bug reports to
+<bug-MasonX-interp-withcallbacks@rt.cpan.org>.
 
 =head1 SEE ALSO
 
@@ -901,7 +906,7 @@ David Wheeler <david@kineticode.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2003-2006 by David Wheeler
+Copyright 2003-2008 by David Wheeler. Some Rights Reserved.
 
 This library is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
