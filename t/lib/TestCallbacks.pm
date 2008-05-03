@@ -79,20 +79,28 @@ sub cbr_note : Callback {
 
 package TestCallbacks;
 
-# $Id: TestCallbacks.pm,v 1.2 2003/09/07 18:08:01 david Exp $
+# $Id$
 
 use strict;
 use HTML::Mason::ApacheHandler;
 use HTML::Mason::Exceptions;
-use Apache;
-use Apache::Constants qw(HTTP_OK);
+use constant HTTP_OK => 200;
 use constant KEY => 'myCallbackTester';
 
-my $server = Apache->server;
+my $server;
+if ($ENV{MOD_PERL_API_VERSION}) {
+    require Apache2::ServerUtil;
+    $server = Apache2::ServerUtil->server;
+} else {
+    require Apache;
+    $server = Apache->server;
+}
+
 my $cfg = $server->dir_config;
-my %params = ( comp_root    => $cfg->{MasonCompRoot},
-               interp_class => 'MasonX::Interp::WithCallbacks',
-             );
+my %params = (
+    comp_root    => $cfg->{MasonCompRoot},
+    interp_class => 'MasonX::Interp::WithCallbacks',
+);
 
 sub simple {
     my $cb = shift;

@@ -1,6 +1,6 @@
 #!perl -w
 
-# $Id: 08apache.t,v 1.9 2004/06/26 03:51:02 david Exp $
+# $Id$
 
 use strict;
 use Test::More;
@@ -18,13 +18,17 @@ BEGIN {
     plan tests => 178;
 }
 
-Apache::TestRequest::user_agent(reset => 1,
-                                requests_redirectable => 0);
+Apache::TestRequest::user_agent(
+    reset                 => 1,
+    requests_redirectable => 0,
+);
 
 my $key = 'myCallbackTester';
-my @keys = (myCallbackTester => '/test',
-            OOCBTester => '/oop',
-            OOCBTester => '/ooconf');
+my @keys = (
+    myCallbackTester => '/test',
+    OOCBTester       => '/oop',
+    OOCBTester       => '/ooconf',
+);
 
 ##############################################################################
 # Just make sure it works.
