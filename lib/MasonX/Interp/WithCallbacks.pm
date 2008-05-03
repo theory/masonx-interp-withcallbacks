@@ -880,7 +880,7 @@ This module is stored in an open repository at the following address:
 L<https://svn.kineticode.com/MasonX-Interp-WithCallbacks/trunk/>
 
 Patches against SVN::Notify are welcome. Please send bug reports to
-<bug-MasonX-interp-withcallbacks@rt.cpan.org>.
+<bug-masonx-interp-withcallbacks@rt.cpan.org>.
 
 =head1 SEE ALSO
 
