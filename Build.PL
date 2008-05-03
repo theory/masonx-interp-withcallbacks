@@ -7,7 +7,10 @@ $build_pkg->new(
     module_name        => 'MasonX::Interp::WithCallbacks',
     license            => 'perl',
     configure_requires => { 'Module::Build' => '0.2701' },
-    build_requires     => { 'Test::More'    => '0.17'   },
+    build_requires     => {
+        'Module::Build' => '0.2701',
+        'Test::More'    => '0.17',
+    },
     recommends         => {
         'Test::Pod'      => '1.20',
         'Apache::TestMB' => 0
