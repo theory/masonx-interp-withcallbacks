@@ -9,6 +9,8 @@ Revision history for Perl extension MasonX::Interp::WithCallbacks.
       - Added a link to the Subversion repository.
       - Fixed the test suite to run properly with Apache::TestMB under
         mod_perl 2 as well as mod_perl 1.
+      - Fixed failing test with older versions of CGI, such as that
+        distributed with Perl 5.6.2.
 
 1.17  2007-07-24T19:37:47
       - Fixed test failures with Mason 1.36. Patch from Niko Tyni.
