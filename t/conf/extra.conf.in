@@ -1,11 +1,13 @@
 <IfModule mod_perl.c>
   PerlSetVar MasonCompRoot @DocumentRoot@
-  <Perl>
-    use File::Spec::Functions qw(catdir);
-    use lib catdir '@ServerRoot@', 'lib';
-    use lib catdir '@ServerRoot@', '..', 'blib';
-    use lib catdir '@ServerRoot@', '..', 'lib';
-  </Perl>
+  <IfDefine !MODPERL2>
+    <Perl>
+      use File::Spec::Functions qw(catdir);
+      use lib catdir '@ServerRoot@', 'lib';
+      use lib catdir '@ServerRoot@', '..', 'blib';
+      use lib catdir '@ServerRoot@', '..', 'lib';
+    </Perl>
+  </IfDefine>
   PerlModule TestCallbacks
   SetHandler perl-script
   PerlHandler TestCallbacks
