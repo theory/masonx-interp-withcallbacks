@@ -1,6 +1,6 @@
 ---
 name: MasonX-Interp-WithCallbacks
-version: 1.18
+version: 1.19
 author:
   - 'David Wheeler <david@kineticode.com>'
 abstract: Mason callback support via Params::CallbackRequest.
@@ -15,6 +15,7 @@ requires:
   Params::CallbackRequest: 1.15
   Test::Simple: 0.17
 build_requires:
+  Module::Build: 0.2701
   Test::More: 0.17
 recommends:
   Apache::TestMB: 0
@@ -22,7 +23,7 @@ recommends:
 provides:
   MasonX::Interp::WithCallbacks:
     file: lib/MasonX/Interp/WithCallbacks.pm
-    version: 1.18
+    version: 1.19
 generated_by: Module::Build version 0.280801
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
