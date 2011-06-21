@@ -904,11 +904,11 @@ new code base with a rather different approach.
 
 =head1 AUTHOR
 
-David Wheeler <david@kineticode.com>
+David E. Wheeler <david@justatheory.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2003-2008 by David Wheeler. Some Rights Reserved.
+Copyright 2003-2011 by David E. Wheeler. Some Rights Reserved.
 
 This library is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
