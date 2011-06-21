@@ -5,5 +5,7 @@
 \.bak$
 ^MANIFEST\.SKIP$
 ^MasonX-Interp-WithCallbacks
-\.svn
+\.git
 ^t.TEST$
+^MYMETA\.yml$
+^MYMETA\.json$
