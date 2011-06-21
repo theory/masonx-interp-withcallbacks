@@ -875,12 +875,14 @@ request, just as with C<< $r->pnotes >>.
 
 =head1 SUPPORT
 
-This module is stored in an open repository at the following address:
+This module is stored in an open L<GitHub
+repository|http://github.com/theory/masonx-interp-withcallbacks/>. Feel free
+to fork and contribute!
 
-L<https://svn.kineticode.com/MasonX-Interp-WithCallbacks/trunk/>
-
-Patches against MasonX::Interp::WithCallbacks are welcome. Please send bug
-reports to <bug-masonx-interp-withcallbacks@rt.cpan.org>.
+Please file bug reports via L<GitHub
+Issues|http://github.com/theory/masonx-interp-withcallbacks/issues/> or by
+sending mail to
+L<bug-MasonX-Interp-WithCallbacks.cpan.org|mailto:bug-MasonX-Interp-WithCallbacks.cpan.org>.
 
 =head1 SEE ALSO
 

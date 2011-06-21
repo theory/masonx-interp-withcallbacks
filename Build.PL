@@ -22,4 +22,11 @@ $build_pkg->new(
         'Params::CallbackRequest' => '1.15',
     },
     add_to_cleanup     => ['t/mason'],
+    meta_merge => {
+        resources => {
+            homepage   => 'http://search.cpan.org/dist/MasonX-Interp-WithCallbacks/',
+            bugtracker => 'http://github.com/theory/masonx-interp-withcallbacks/issues/',
+            repository => 'http://github.com/theory/masonx-interp-withcallbacks/',
+        }
+    },
 )->create_build_script;
