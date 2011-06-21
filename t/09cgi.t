@@ -1,7 +1,5 @@
 #!perl -w
 
-# $Id$
-
 use strict;
 use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir);

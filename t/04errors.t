@@ -1,7 +1,5 @@
 #!perl -w
 
-# $Id: 04errors.t,v 1.3 2003/08/25 18:57:13 david Exp $
-
 use strict;
 use FindBin qw($Bin);
 use File::Spec::Functions qw(catdir catfile);
