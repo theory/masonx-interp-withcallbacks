@@ -1,6 +1,6 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
-1.19
+1.19  2011-06-21T04:33:14
       - Fixed a pasto in the "Support" section.
       - Moved repostitory to [GitHub](https://github.com/theory/class-meta/).
       - Fixed installation documentation in the READE so that it demonstrates
