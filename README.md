@@ -1,4 +1,4 @@
-MasonX/Interp/WithCallbacks version 1.19
+MasonX/Interp/WithCallbacks version 1.20
 ========================================
 
 MasonX::Interp::WithCallbacks subclasses HTML::Mason::Interp in order to
