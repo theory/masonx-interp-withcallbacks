@@ -2,6 +2,10 @@ Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
 1.19
       - Fixed a pasto in the "Support" section.
+      - Moved repostitory to [GitHub](https://github.com/theory/class-meta/).
+      - Fixed installation documentation in the READE so that it demonstrates
+        using `Build.PL rather than `Makefile.PL`, as the latter is not
+        included in the distribution.
 
 1.18  2008-05-03T23:26:42
       - Added "configure_requires" parameter to Build.PL and added Test::Pod
