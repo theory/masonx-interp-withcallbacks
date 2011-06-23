@@ -882,7 +882,7 @@ to fork and contribute!
 Please file bug reports via L<GitHub
 Issues|http://github.com/theory/masonx-interp-withcallbacks/issues/> or by
 sending mail to
-L<bug-MasonX-Interp-WithCallbacks.cpan.org|mailto:bug-MasonX-Interp-WithCallbacks.cpan.org>.
+L<bug-MasonX-Interp-WithCallbacks@rt.cpan.org|mailto:bug-MasonX-Interp-WithCallbacks@rt.cpan.org>.
 
 =head1 SEE ALSO
 
