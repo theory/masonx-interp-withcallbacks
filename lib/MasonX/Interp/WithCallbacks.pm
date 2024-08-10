@@ -1,7 +1,7 @@
 package MasonX::Interp::WithCallbacks;
 
 use strict;
-use HTML::Mason qw(1.23);
+use HTML::Mason 1.23;
 use HTML::Mason::Interp;
 use HTML::Mason::Exceptions ();
 use Params::CallbackRequest;
