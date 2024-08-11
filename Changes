@@ -1,6 +1,9 @@
 Revision history for Perl extension MasonX::Interp::WithCallbacks.
 
 1.20
+      - Fixed warning with Perl 5.40.
+      - Added GitHub workflows with CI tests for Perl 5.10 - 5.40 on Linux,
+        macOS, and Windows.
 
 1.19  2011-06-21T04:33:14
       - Fixed a pasto in the "Support" section.
