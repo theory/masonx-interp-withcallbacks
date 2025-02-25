@@ -33,7 +33,7 @@ jobs:
         run: prove -lv
 
       #  Make sure we can build the distribution bundle.
-      - name: Test Distro
+      - name: Test Distribution
         if: runner.os == 'Linux'
         run: |
           prove -l xt
